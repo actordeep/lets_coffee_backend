@@ -1,11 +1,19 @@
 <?php
 
-namespace App\Models;
+// namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+// use Illuminate\Database\Eloquent\Factories\HasFactory;
+// use Illuminate\Database\Eloquent\Model;
 
-class PasswordReset extends Model
-{
-    
-}
+// class PasswordReset extends Model
+// {
+//     use HasFactory;
+
+//     protected $fillable = [
+//         'email',
+//         'token',
+//     ];
+//     public $timestamps = true; // Ensure timestamps are managed automatically
+// }
+
+
