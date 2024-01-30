@@ -11,7 +11,7 @@ class MenuController extends Controller
     public function addItem(Request $request)
     {
         // Validation
-        //new
+        //new validation
         $validator = Validator::make($request->all(), [
             'name' => 'required|string',
             'price' => 'required|numeric',
