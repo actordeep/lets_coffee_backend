@@ -4,7 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\MenuController;
-
+use App\Http\Controllers\ProfileUpdateController;
+use App\Http\Controllers\UserProfileController;
 
 
 // Public Routes
@@ -23,4 +24,5 @@ Route::prefix('menu')->group(function () {
     Route::put('update/{id}', [MenuController::class, 'updateItem']);
     Route::delete('delete/{id}', [MenuController::class, 'deleteItem']);
 });
+Route::get('/update-profile',[UserProfileController::class,'UpdateProfile']);
 
