@@ -41,4 +41,9 @@ class UserProfileController extends Controller
             return response()->json(['success' => false, 'msg' => 'User is not authenticated.']);
         }
     }
+
+    public function passForget(){
+        $this->sendMail('mail','subject','txt');
+    }
+
 }

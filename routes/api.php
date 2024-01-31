@@ -6,6 +6,7 @@ use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\ProfileUpdateController;
 use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\InventoryController;
 
 
 // Public Routes
@@ -26,3 +27,7 @@ Route::prefix('menu')->group(function () {
 });
 Route::get('/update-profile',[UserProfileController::class,'UpdateProfile']);
 
+
+Route::get('/inventory', [InventoryController::class, 'index']);
+Route::post('/inventory1', [InventoryController::class, 'addItem']);
+Route::post('/buyitem', [InventoryController::class, 'buyItem']);
