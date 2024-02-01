@@ -7,6 +7,7 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\ProfileUpdateController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\ReviewController;
 
 
 // Public Routes
@@ -31,3 +32,16 @@ Route::get('/update-profile',[UserProfileController::class,'UpdateProfile']);
 Route::get('/inventory', [InventoryController::class, 'index']);
 Route::post('/inventory1', [InventoryController::class, 'addItem']);
 Route::post('/buyitem', [InventoryController::class, 'buyItem']);
+
+
+
+Route::prefix('reviews')->group(function () {
+    // Create a new review
+    Route::post('/', [ReviewController::class, 'createReview']);
+
+    // Get all reviews for an item
+    Route::get('/item/add-review', [ReviewController::class, 'addReview']);
+
+    // Get average rating for an item
+    Route::get('/average-rating/{itemType}/{itemId}', [ReviewController::class, 'getAverageRatingForItem']);
+});

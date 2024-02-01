@@ -64,5 +64,5 @@ class InventoryController extends Controller
 }
 
 
-    // Implement other methods (update, delete) as needed
+
 }
