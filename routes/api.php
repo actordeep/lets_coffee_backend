@@ -8,6 +8,8 @@ use App\Http\Controllers\ProfileUpdateController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\orderStatusController;
+use App\Http\Controllers\TransactionController;
 
 
 // Public Routes
@@ -45,3 +47,10 @@ Route::prefix('reviews')->group(function () {
     // Get average rating for an item
     Route::get('/average-rating/{itemType}/{itemId}', [ReviewController::class, 'getAverageRatingForItem']);
 });
+
+Route::put('/orders/{orderId}/update-status', [orderStatusController::class, 'updateOrderStatus']);
+Route::get('/orders/{orderId}/view-status', [orderStatusController::class, 'getStatusOrder']);
+
+
+Route::get('/transactions', [TransactionController::class, 'index']);
+Route::post('/transactions', [TransactionController::class, 'store']);
