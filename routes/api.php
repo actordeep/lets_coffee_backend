@@ -10,6 +10,7 @@ use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\orderStatusController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\GetTransactionController;
 
 
 // Public Routes
@@ -54,3 +55,8 @@ Route::get('/orders/{orderId}/view-status', [orderStatusController::class, 'getS
 
 Route::get('/transactions', [TransactionController::class, 'index']);
 Route::post('/transactions', [TransactionController::class, 'store']);
+
+// Route::middleware(['auth.user'])->group(function () {
+    // User transactions route
+    Route::get('/user-transactions', [GetTransactionController::class, 'getUserTransactions']);
+// });
