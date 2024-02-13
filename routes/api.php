@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
@@ -11,6 +12,7 @@ use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\orderStatusController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\GetTransactionController;
+use App\Http\Controllers\SalesController;
 
 
 // Public Routes
@@ -53,10 +55,17 @@ Route::put('/orders/{orderId}/update-status', [orderStatusController::class, 'up
 Route::get('/orders/{orderId}/view-status', [orderStatusController::class, 'getStatusOrder']);
 
 
-Route::get('/transactions', [TransactionController::class, 'index']);
+// Route::get('/transactions', [TransactionController::class, 'index']);
 Route::post('/transactions', [TransactionController::class, 'store']);
 
 // Route::middleware(['auth.user'])->group(function () {
     // User transactions route
     Route::get('/user-transactions', [GetTransactionController::class, 'getUserTransactions']);
 // });
+
+
+Route::get('/day-sales', [SalesController::class, 'getDaySales']);
+Route::get('/week-sales', [SalesController::class, 'getWeekSales']);
+Route::get('/month-sales', [SalesController::class, 'getMonthSales']);
+Route::get('/year-sales', [SalesController::class, 'getYearSales']);
+Route::get('/total-sales', [SalesController::class, 'getTotalSales']);
