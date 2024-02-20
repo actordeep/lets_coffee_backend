@@ -4,18 +4,18 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSalesTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('sales', function (Blueprint $table) {
+        Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->integer('product_id');
+            $table->string('product_id');
             $table->string('quantity');
-            $table->integer('total_amount');
+            $table->string('total_amount');
             $table->timestamps();
         });
     }
@@ -24,8 +24,7 @@ class CreateSalesTable extends Migration
      * Reverse the migrations.
      */
     public function down(): void
-    {
-        Schema::dropIfExists('sales');
+    {  
+        Schema::dropIfExists('transactions');
     }
-}
-
+};

@@ -3,59 +3,101 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rule;
 use App\Models\Review;
-use App\Models\User;
+use Illuminate\Support\Facades\Validator;
+use DB;
 
 class ReviewController extends Controller
 {
+    public function review(Request $request){
+        $request->validate([
+            'user_id' => 'required|integer',
+            'coffee_shop_id' => 'required|integer', 
+            'rating' => 'required|integer|between:1,5',
+            'comment' => 'nullable|string',
+        ]);
+
+         $insert = DB::table('reviews')->insert(['user_id'=>$request->user_id,'coffee_shop_id'=>$request->coffee_shop_id,'rating'=>$request->rating,'comment'=>$request->comment]);
+         if($insert){
+            return 'yes';
+
+         }
+         else{
+            return 'no';
+         }
+
+        // Create a new review
+        $review = Review::all();
+      return response()->json(['message' => 'Review submitted successfully']);
+    }
+    
    
-public function addReview(Request $request)
-{
-    // Validation rules
-    $request->validate([
-        'user_id' => 'required|integer', // Assuming you provide user_id in the request
-        'item_id' => 'required|integer',
-        'rating' => 'required|integer|min:1|max:5',
-        'description' => 'nullable|string',
-    ]);
-
-    // Check if the user exists
-    $user = User::find($request->user_id);
-
-    if (!$user) {
-        return response()->json(['error' => 'User not found'], 404);
-    }
-
-    // Check if the user has already reviewed the same item
-    $existingReview = Review::where('user_id', $user->id)
-        ->where('item_id', $request->item_id)
-        ->first();
-
-    if ($existingReview) {
-        return response()->json(['error' => 'You have already reviewed this item'], 400);
-    }
-
-    // Create a new review
-    $review = new Review([
-        'user_id' => $user->id,
-        'item_id' => $request->item_id,
-        'rating' => $request->rating,
-        'description' => $request->description,
-    ]);
-
-    $review->save();
-
-    return response()->json(['message' => 'Review added successfully', 'data' => $review]);
-}
-
-    public function getAverageRating($itemType, $itemId)
+    public function index()
     {
-        $averageRating = Review::where('item_type', $itemType)
-            ->where('item_id', $itemId)
-            ->avg('rating');
+        $reviews = Review::all();
+        return response()->json(['reviews' => $reviews], 200);
+    }
 
-        return response()->json(['average_rating' => $averageRating]);
+    
+    public function store(Request $request)
+    {
+       
+        $request->validate([
+            'user_id' => 'required|integer',
+            'coffee_shop_id' => 'required|integer',
+            'rating' => 'required|integer|between:1,5',
+            'comment' => 'nullable|string',
+        ]);
+
+        $review = Review::create($request->all());
+
+        return response()->json(['review' => $review], 201);
+    }
+
+   
+    public function show($id)
+    {
+        $review = Review::find($id);
+
+        if (!$review) {
+            return response()->json(['message' => 'Review not found'], 404);
+        }
+
+        return response()->json(['review' => $review], 200);
+    }
+
+    
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'user_id' => 'required|integer',
+            'coffee_shop_id' => 'required|integer',
+            'rating' => 'required|integer|between:1,5',
+            'comment' => 'nullable|string',
+        ]);
+
+        $review = Review::find($id);
+
+        if (!$review) {
+            return response()->json(['message' => 'Review not found'], 404);
+        }
+
+        $review->update($request->all());
+
+        return response()->json(['review' => $review], 200);
+    }
+
+   
+    public function destroy($id)
+    {
+        $review = Review::find($id);
+
+        if (!$review) {
+            return response()->json(['message' => 'Review not found'], 404);
+        }
+
+        $review->delete();
+
+        return response()->json(['message' => 'Review deleted successfully'], 200);
     }
 }

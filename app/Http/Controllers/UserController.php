@@ -6,7 +6,6 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;   
-use App\Http\Controllers\UserController;
 
 
 class UserController extends Controller
@@ -97,7 +96,7 @@ public function login(Request $request)
 
     // Use Eloquent to search in the 'coffees' table
     $results = DB::table('coffee')->where('name', 'LIKE', '%' . $name . '%')->get();
-    return $results;
+    // return $results;
 
     return response()->json($results);
  }

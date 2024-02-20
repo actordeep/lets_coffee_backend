@@ -14,9 +14,6 @@ use Illuminate\Support\Str;
 
 class passwordRersetController extends Controller
 {
- 
-
-
     public function send_reset_password_email(Request $request)
     {
         $request->validate([

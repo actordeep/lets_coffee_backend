@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\transctionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\InventoryController;
-use App\Http\Controllers\SaleController;
+use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,50 +42,38 @@ Route::put('/inventory/{id}', [InventoryController::class, 'update']);
 Route::delete('/inventory/{id}', [InventoryController::class, 'destroy']);
 
 
-
-
-Route::post('/sales', [SaleController::class, 'store']);
+Route::post('/transactions', [transctionController::class, 'store']);
 
 // Retrieve all sales
-Route::get('/sales', [SaleController::class, 'index']);
+Route::get('/transactions', [transctionController::class, 'index']);
 
 // Retrieve month sales
-Route::get('/sales/month', [SaleController::class, 'monthSales']);
+Route::get('/transactions/month', [transctionController::class, 'monthSales']);
 
 // Retrieve week sales
-Route::get('/sales/week', [SaleController::class, 'weekSales']);
+Route::get('/transactions/week', [transctionController::class, 'weekSales']);
 
 // Retrieve day sales
-Route::get('/sales/day', [SaleController::class, 'daySales']);
+Route::get('/transactions/day', [transctionController::class, 'daySales']);
 
-Route::post('order',[SaleController::class, 'order']);
-
-
+Route::post('order',[transctionController::class, 'order']);
 
 
 
+Route::prefix('product')->group(function () {
+    Route::post('add', [ProductController::class, 'addItem']);
+    Route::put('update/{id}', [ProductController::class, 'updateItem']);
+    Route::delete('delete/{id}', [ProductController::class, 'deleteItem']);
 
-
-
-
-
-
-
-
-
-
-
-
-Route::prefix('reviews')->group(function () {
-    // Create a new review
-    Route::post('/', [ReviewController::class, 'createReview']);
-
-    // Get all reviews for an item
-    Route::get('/item/add-review', [ReviewController::class, 'addReview']);
-
-    // Get average rating for an item
-    Route::get('/average-rating/{itemType}/{itemId}', [ReviewController::class, 'getAverageRatingForItem']);
 });
+
+// Route::apiResource('reviews', [ReviewController::class] );
+
+Route::prefix('reviews')->group( function () { 
+    Route::post('/rating', [ReviewController::class,'review']);
+    Route::post('comment', [ReviewController::class,'comment']);
+    
+}); 
 
 
 

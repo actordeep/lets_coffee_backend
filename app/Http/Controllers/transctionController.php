@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 
-class SaleController extends Controller
+class transctionController extends Controller
 {
     public function index()
     {
         // Retrieve all sales
-        $sales = DB::table('sales')->get();  
+        $sales = DB::table('transactions')->get();  
 
         return response()->json(['data' => $sales]);
     }
@@ -21,7 +22,7 @@ class SaleController extends Controller
     {
         // Validate request data
         $validator = Validator::make($request->all(), [
-            'product_id' => 'required',  
+            'product_id' => 'required|integer',  
             'quantity' => 'required|integer|min:1',
             'total_amount' => 'required|numeric|min:0',
         ]);
@@ -31,7 +32,7 @@ class SaleController extends Controller
         }
 
         // Create a new sale
-        $saleId = DB::table('sales_')->insertGetId([
+        $saleId = DB::table('transactions')->insertGetId([
             'product_id' => $request->input('product_id'),
             'quantity' => $request->input('quantity'),
             'total_amount' => $request->input('total_amount'),
@@ -40,23 +41,17 @@ class SaleController extends Controller
 
 
 
-        $sale = DB::table('sales_')->find($saleId);
+        $sale = DB::table('transactions')->find($saleId);
 
         return response()->json(['success' => true, 'message' => 'Sale created successfully', 'data' => $sale]);
 
         
     }
-    public function monthSales()
-    {
-        // Retrieve month sales
-        $monthSales = Sale::whereMonth('created_at', '=', Carbon::now()->month)->get();
-
-        return response()->json(['data' => $monthSales]);
-    }
+   
     public function weekSales()
     {
         // Retrieve week sales
-        $weekSales = Sale::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->get();
+        $weekSales =Transaction::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->get();
 
         return response()->json(['data' => $weekSales]);
     }
@@ -64,8 +59,8 @@ class SaleController extends Controller
     public function daySales()
     {
         // Retrieve day sales
-        $daySales = Sale::whereDate('created_at', '=', Carbon::now()->toDateString())->get();
-        return 0;
+        $daySales =Transaction::whereDate('created_at', '=', Carbon::now()->toDateString())->get();
+        // return 0;
 
         return response()->json(['data' => $daySales]);
     }
@@ -94,12 +89,8 @@ class SaleController extends Controller
         
         );
             
-
-            
+      
         return response()->json(['success' => true, 'message' => 'Sale created successfully', 'data' => $sales]);
-
-
-
 
         }
         else{
@@ -109,3 +100,4 @@ class SaleController extends Controller
 
   
 }
+
